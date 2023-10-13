@@ -35,67 +35,9 @@ int const cs = 3;
 
 #endif
 
-// Display parameters - uncomment the line for the one you want to use
+// Display parameters
 
-// Adafruit 1.44" 128x128 display
-int const xsize = 128, ysize = 128, xoff = 2, yoff = 1, invert = 0, rotate = 3, bgr = 1;
-
-// AliExpress 1.44" 128x128 display
-// int const xsize = 128, ysize = 128, xoff = 2, yoff = 1, invert = 0, rotate = 3, bgr = 1;
-
-// Adafruit 0.96" 160x80 display
-// int const xsize = 160, ysize = 80, xoff = 0, yoff = 24, invert = 0, rotate = 6, bgr = 0;
-
-// AliExpress 0.96" 160x80 display
-// int const xsize = 160, ysize = 80, xoff = 1, yoff = 26, invert = 1, rotate = 0, bgr = 1;
-
-// Adafruit 1.8" 160x128 display
-// int const xsize = 160, ysize = 128, xoff = 0, yoff = 0, invert = 0, rotate = 0, bgr = 1;
-
-// AliExpress 1.8" 160x128 display (red PCB)
-// int const xsize = 160, ysize = 128, xoff = 0, yoff = 0, invert = 0, rotate = 0, bgr = 1;
-
-// AliExpress 1.8" 160x128 display (blue PCB)
-// int const xsize = 160, ysize = 128, xoff = 0, yoff = 0, invert = 0, rotate = 6, bgr = 0;
-
-// Adafruit 1.14" 240x135 display
-// int const xsize = 240, ysize = 135, xoff = 40, yoff = 53, invert = 1, rotate = 6, bgr = 0;
-
-// AliExpress 1.14" 240x135 display
-// int const xsize = 240, ysize = 135, xoff = 40, yoff = 52, invert = 1, rotate = 0, bgr = 0;
-
-// Adafruit 1.3" 240x240 display
-// int const xsize = 240, ysize = 240, xoff = 0, yoff = 80, invert = 1, rotate = 5, bgr = 0;
-
-// Adafruit 1.54" 240x240 display
-// int const xsize = 240, ysize = 240, xoff = 0, yoff = 80, invert = 1, rotate = 5, bgr = 0;
-
-// AliExpress 1.54" 240x240 display
-// int const xsize = 240, ysize = 240, xoff = 0, yoff = 80, invert = 1, rotate = 5, bgr = 0;
-
-// Adafruit 1.9" 320x170 display
-// int const xsize = 320, ysize = 170, xoff = 0, yoff = 35, invert = 1, rotate = 0, bgr = 0;
-
-// AliExpress 1.9" 320x170 display
-// int const xsize = 320, ysize = 170, xoff = 0, yoff = 35, invert = 1, rotate = 0, bgr = 0;
-
-// Adafruit 1.47" 320x172 rounded rectangle display
-// int const xsize = 320, ysize = 172, xoff = 0, yoff = 34, invert = 1, rotate = 0, bgr = 0;
-
-// AliExpress 1.47" 320x172 rounded rectangle display
-// int const xsize = 320, ysize = 172, xoff = 0, yoff = 34, invert = 1, rotate = 0, bgr = 0;
-
-// Adafruit 2.0" 320x240 display
-// int const xsize = 320, ysize = 240, xoff = 0, yoff = 0, invert = 1, rotate = 6, bgr = 0;
-
-// AliExpress 2.0" 320x240 display
-// int const xsize = 320, ysize = 240, xoff = 0, yoff = 0, invert = 1, rotate = 0, bgr = 0;
-
-// Adafruit 2.2" 320x240 display
-// int const xsize = 320, ysize = 240, xoff = 0, yoff = 0, invert = 0, rotate = 4, bgr = 1;
-
-// AliExpress 2.4" 320x240 display
-// int const xsize = 320, ysize = 240, xoff = 0, yoff = 0, invert = 0, rotate = 2, bgr = 1;
+ int const xsize = 240, ysize = 240, xoff = 0, yoff = 0, invert = 1, rotate = 5, bgr = 1;
 
 // Character set for text - stored in program memory
 const uint8_t CharMap[96][6] PROGMEM = {
@@ -243,10 +185,240 @@ void InitDisplay () {
   PORT_TOGGLE(1<<cs);
   Command(0x01);                           // Software reset
   delay(250);                              // delay 250 ms
-  Command(0x36); Data(rotate<<5 | bgr<<3); // Set orientation and rgb/bgr
-  Command(0x3A); Data(0x55);               // Set color mode - 16-bit color
-  Command(0x20+invert);                    // Invert
-  Command(0x11);                           // Out of sleep mode
+
+	{
+		Command(0xEF);
+		Command(0xEB);
+		Data(0x14);
+
+		Command(0xFE);
+		Command(0xEF);
+
+		Command(0xEB);
+		Data(0x14);
+
+		Command(0x84);
+		Data(0x40);
+
+		Command(0x85);
+		Data(0xFF);
+
+		Command(0x86);
+		Data(0xFF);
+
+		Command(0x87);
+		Data(0xFF);
+
+		Command(0x88);
+		Data(0x0A);
+
+		Command(0x89);
+		Data(0x21);
+
+		Command(0x8A);
+		Data(0x00);
+
+		Command(0x8B);
+		Data(0x80);
+
+		Command(0x8C);
+		Data(0x01);
+
+		Command(0x8D);
+		Data(0x01);
+
+		Command(0x8E);
+		Data(0xFF);
+
+		Command(0x8F);
+		Data(0xFF);
+
+		Command(0xB6);
+		Data(0x00);
+		Data(invert<<5);
+
+		Command(0x3A);
+		Data(0x05);
+
+		Command(0x90);
+		Data(0x08);
+		Data(0x08);
+		Data(0x08);
+		Data(0x08);
+
+		Command(0xBD);
+		Data(0x06);
+
+		Command(0xBC);
+		Data(0x00);
+
+		Command(0xFF);
+		Data(0x60);
+		Data(0x01);
+		Data(0x04);
+
+		Command(0xC3);
+		Data(0x13);
+		Command(0xC4);
+		Data(0x13);
+
+		Command(0xC9);
+		Data(0x22);
+
+		Command(0xBE);
+		Data(0x11);
+
+		Command(0xE1);
+		Data(0x10);
+		Data(0x0E);
+
+		Command(0xDF);
+		Data(0x21);
+		Data(0x0c);
+		Data(0x02);
+
+		Command(0xF0);
+		Data(0x45);
+		Data(0x09);
+		Data(0x08);
+		Data(0x08);
+		Data(0x26);
+		Data(0x2A);
+
+		Command(0xF1);
+		Data(0x43);
+		Data(0x70);
+		Data(0x72);
+		Data(0x36);
+		Data(0x37);
+		Data(0x6F);
+
+		Command(0xF2);
+		Data(0x45);
+		Data(0x09);
+		Data(0x08);
+		Data(0x08);
+		Data(0x26);
+		Data(0x2A);
+
+		Command(0xF3);
+		Data(0x43);
+		Data(0x70);
+		Data(0x72);
+		Data(0x36);
+		Data(0x37);
+		Data(0x6F);
+
+		Command(0xED);
+		Data(0x1B);
+		Data(0x0B);
+
+		Command(0xAE);
+		Data(0x77);
+
+		Command(0xCD);
+		Data(0x63);
+
+		Command(0x70);
+		Data(0x07);
+		Data(0x07);
+		Data(0x04);
+		Data(0x0E);
+		Data(0x0F);
+		Data(0x09);
+		Data(0x07);
+		Data(0x08);
+		Data(0x03);
+
+		Command(0xE8);
+		Data(0x34);
+
+		Command(0x62);
+		Data(0x18);
+		Data(0x0D);
+		Data(0x71);
+		Data(0xED);
+		Data(0x70);
+		Data(0x70);
+		Data(0x18);
+		Data(0x0F);
+		Data(0x71);
+		Data(0xEF);
+		Data(0x70);
+		Data(0x70);
+
+		Command(0x63);
+		Data(0x18);
+		Data(0x11);
+		Data(0x71);
+		Data(0xF1);
+		Data(0x70);
+		Data(0x70);
+		Data(0x18);
+		Data(0x13);
+		Data(0x71);
+		Data(0xF3);
+		Data(0x70);
+		Data(0x70);
+
+		Command(0x64);
+		Data(0x28);
+		Data(0x29);
+		Data(0xF1);
+		Data(0x01);
+		Data(0xF1);
+		Data(0x00);
+		Data(0x07);
+
+		Command(0x66);
+		Data(0x3C);
+		Data(0x00);
+		Data(0xCD);
+		Data(0x67);
+		Data(0x45);
+		Data(0x45);
+		Data(0x10);
+		Data(0x00);
+		Data(0x00);
+		Data(0x00);
+
+		Command(0x67);
+		Data(0x00);
+		Data(0x3C);
+		Data(0x00);
+		Data(0x00);
+		Data(0x00);
+		Data(0x01);
+		Data(0x54);
+		Data(0x10);
+		Data(0x32);
+		Data(0x98);
+
+		Command(0x74);
+		Data(0x10);
+		Data(0x85);
+		Data(0x80);
+		Data(0x00);
+		Data(0x00);
+		Data(0x4E);
+		Data(0x00);
+
+		Command(0x98);
+		Data(0x3e);
+		Data(0x07);
+
+		Command(0x35);
+		Command(0x21);
+  	
+		Command(0x36);
+		Data(rotate<<5 | bgr<<3); // Set orientation and rgb/bgr
+
+		Command(0x11);
+		delay(120);
+		Command(0x29);
+		delay(20);
+	}
+
   delay(150);
   PORT_TOGGLE(1<<cs);
 }
